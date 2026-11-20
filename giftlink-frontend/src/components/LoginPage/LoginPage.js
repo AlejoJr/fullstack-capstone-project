@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { urlConfig } from '../../config';
+import { useAppContext } from '../../context/AuthContext';
 import './LoginPage.css';
 
 function LoginPage() {
@@ -9,6 +10,7 @@ function LoginPage() {
     const [incorrect, setIncorrect] = useState('');
     const navigate = useNavigate();
     const bearerToken = sessionStorage.getItem('bearer-token');
+    const { setIsLoggedIn } = useAppContext();
 
     useEffect(() => {
         if (sessionStorage.getItem('auth-token')) {
@@ -37,6 +39,7 @@ function LoginPage() {
                 sessionStorage.setItem('auth-token', json.authtoken);
                 sessionStorage.setItem('name', json.userName);
                 sessionStorage.setItem('email', json.userEmail);
+                setIsLoggedIn(true);
                 navigate('/app');
             } else {
                 setEmail('');
