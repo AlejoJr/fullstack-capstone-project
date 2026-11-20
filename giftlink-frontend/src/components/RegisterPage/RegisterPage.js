@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { urlConfig } from '../../config';
 import './RegisterPage.css';
+import { useAppContext } from '../../context/AuthContext';
 
 function RegisterPage() {
     const [firstName, setFirstName] = useState('');
@@ -10,6 +11,7 @@ function RegisterPage() {
     const [password, setPassword] = useState('');
     const [showerr, setShowerr] = useState('');
     const navigate = useNavigate();
+    const { setIsLoggedIn } = useAppContext();
 
     const handleRegister = async () => {
         console.log("Register invoked");
@@ -32,6 +34,7 @@ function RegisterPage() {
                 sessionStorage.setItem('auth-token', json.authtoken);
                 sessionStorage.setItem('name', firstName);
                 sessionStorage.setItem('email', json.email);
+                setIsLoggedIn(true);
                 navigate('/app');
             }
             if (json.error) {
